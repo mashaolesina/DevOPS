@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_PASSWORD=my_super_secret_password_123 # Ошибка 1: Секреты в открытом виде
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    # Ошибка 2: Отсутствие томов (данные пропадут при удалении контейнера)
+    # Ошибка 3: Отсутствие лимитов на ресурсы (контейнер может съесть всю RAM)

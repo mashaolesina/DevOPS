@@ -1,0 +1,16 @@
+# Исправление 2: Конкретная версия базового образа (Lightweight)
+FROM python:3.11-slim
+
+# Исправление 1: Создание и использование не-root пользователя
+RUN useradd -m myuser
+USER myuser
+
+WORKDIR /home/myuser/app
+
+# Исправление 3: Объединение команд и очистка кэша для уменьшения размера
+COPY --chown=myuser:myuser requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY --chown=myuser:myuser . .
+
+CMD python app.py

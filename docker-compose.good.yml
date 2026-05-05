@@ -1,0 +1,29 @@
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.good
+    ports:
+      - "127.0.0.1:5000:5000"
+    env_file: .env # Исправление 1: Вынос переменных в файл (не пушится в git)
+    networks:
+      - web_net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M # Исправление 3: Ограничение ресурсов
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data # Исправление 2: Persistent storage
+    networks:
+      - db_net
+
+volumes:
+  db_data:
+
+networks:
+  web_net:
+  db_net:
