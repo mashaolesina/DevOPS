@@ -1,0 +1,8 @@
+replicaCount: 2
+image:
+  repository: python
+  tag: "3.11-slim"
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8080
